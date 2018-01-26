@@ -12,6 +12,7 @@
 #define DIST_THRESH 24
 #define DIST_START 10
 
+
 #define WIFI_SSID "TreatYoSelf"
 #define WIFI_PASSWORD "iotdevfest18"
  
