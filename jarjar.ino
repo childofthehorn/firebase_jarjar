@@ -12,8 +12,6 @@
 #define DIST_THRESH 24
 #define DIST_START 10
 
-#define FIREBASE_HOST "jarjar-941c8.firebaseapp.comm"
-#define FIREBASE_AUTH "ALBY3k9LtZB5JfroLesiWZzW25NMI6jTI5IgYVYp"
 #define WIFI_SSID "TreatYoSelf"
 #define WIFI_PASSWORD "iotdevfest18"
  
