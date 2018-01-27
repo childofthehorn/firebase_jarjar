@@ -1,18 +1,19 @@
 #include <ESP8266WiFi.h>
 #include <FirebaseArduino.h>
 
-#define TRIGGER 6
-#define ECHO    7
+#define TRIGGER 16
+#define ECHO    12
 #define ESP8266_LED 5
-#define KNOCK 8
-#define BUTTON 8
-#define SHEBANG 9
-#define TWITCH 10
+#define KNOCK A0
+#define BUTTON 0
+#define SHEBANG 4
+#define TWITCH 13
 #define THRESHHOLD 100
 #define DIST_THRESH 24
 #define DIST_START 10
 
-
+#define FIREBASE_HOST "jarjar-941c8.firebaseapp.comm"
+#define FIREBASE_AUTH "ALBY3k9LtZB5JfroLesiWZzW25NMI6jTI5IgYVYp"
 #define WIFI_SSID "TreatYoSelf"
 #define WIFI_PASSWORD "iotdevfest18"
  
@@ -59,7 +60,15 @@ void loop()
 {
   distanceSensor();
   knockSensor();
-  readButton();
+  readButtoner();
+  if(Firebase.getInt("fullshebang") > 0){
+    Firebase.set("fullshebang", 0);
+    fullShebang();
+  }
+  if(Firebase.getInt("twitch") > 0){
+    Firebase.set("twitch", 0);
+    twitch();
+  }
 }
 
 void distanceSensor(){
@@ -103,7 +112,7 @@ void knockSensor(){
   }
 }
 
-void readButton(){
+void readButtoner(){
    reading = digitalRead(BUTTON);
   // if the input just went from LOW and HIGH and we've waited long enough
   // to ignore any noise on the circuit, toggle the output pin and remember
@@ -128,6 +137,8 @@ void fullShebang(){
   digitalWrite(SHEBANG,HIGH);
   int triggers = Firebase.getInt("shebangTriggers");
     Firebase.set("shebangTriggers", triggers++);
+    delay(200);
+    digitalWrite(SHEBANG, LOW);
 }
 
 void twitch(){
@@ -135,7 +146,7 @@ void twitch(){
   delay(50);
   digitalWrite(TWITCH, HIGH);
   int triggers = Firebase.getInt("twitchTriggers");
-    Firebase.set("twitchTriggers", triggers++);
+   Firebase.set("twitchTriggers", triggers++);
 }
 
 
